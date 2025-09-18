@@ -21,9 +21,23 @@ export default function Index() {
     }
     setItems((prev : Item[]) => (prev.concat({
       name: newItemName,
-      quantity: 0
+      quantity: 1
     })))    
     setNewItemName("")
+  }
+
+  function handleDeleteItem (i : number) {
+    setItems(prevItems => {
+      if(prevItems[i].quantity === 1)
+      {
+        return prevItems.filter((_, index) => i !== index)
+      }
+      return prevItems.map((prev, index) => {
+        if(index === i)
+          prev.quantity--
+        return prev;
+      });
+    })
   }
 
   return (
@@ -47,9 +61,21 @@ export default function Index() {
               <Text>{item.name}</Text>
               <View style={styles.actionsContainer}>
                 <Text style={{fontSize: 24}}>{item.quantity}</Text>
-                <Ionicons name="add" size={32} color="green" />
-                <Ionicons name="remove" size={32} color="green" />
-                <Ionicons name="trash" size={32} color="red" />
+                <Ionicons name="add" size={32} color="green" onPress={() => {
+                    setItems(prevItems => prevItems.map((prev, index) => {
+                      if(index === i){
+                        prev.quantity++;
+                        return prev
+                      }
+                      return prev
+                    })
+                )}}  />
+                <Ionicons name="remove"size={32} color="green" onPress={() => handleDeleteItem(i)}/>
+                <Ionicons name="trash"  style={{
+                marginLeft:24}} onPress={() => {
+                    setItems(prevItems => prevItems.filter((_, index) => index !== i));
+                  }}
+                  size={32} color="red" />
               </View>
             </View>
           ))
