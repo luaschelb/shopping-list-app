@@ -1,6 +1,7 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Button } from "@react-navigation/elements";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 
 type Item = {
@@ -12,6 +13,29 @@ export default function Index() {
 
   const [ items, setItems ] = useState<Item[]>([])
   const [ newItemName, setNewItemName ] = useState("")
+
+  useEffect(() => {
+    const loadItems = async () => {
+      try {
+        const storedItems = await AsyncStorage.getItem('@items');
+        if(storedItems) setItems(JSON.parse(storedItems));
+      } catch (e) {
+        console.error('Failed to load items', e);
+      }
+    }
+    loadItems();
+  }, []);
+
+  useEffect(() => {
+    const saveItems = async () => {
+      try {
+        await AsyncStorage.setItem('@items', JSON.stringify(items));
+      } catch (e) {
+        console.error('Failed to save items', e);
+      }
+    }
+    saveItems();
+  }, [items]);
 
   function registerNewItem () {
     if(newItemName === "")
