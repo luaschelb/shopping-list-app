@@ -4,7 +4,6 @@ import ApiService from "./ApiService"
 const ItemService = {
     getItems: async () => {
         const result = await ApiService.get("items") as Item[]
-        console.log(result)
         return result
     },
 
