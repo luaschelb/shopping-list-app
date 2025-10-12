@@ -1,8 +1,7 @@
 import { fetch, FetchRequestInit } from 'expo/fetch';
 
-const BaseUrl = process.env.EXPO_BASE_URL || "localhost:8080"
-
-const request = async (endpoint: string, init?: FetchRequestInit) => {
+const BaseUrl = process.env.EXPO_PUBLIC_API_URL || "http://localhost:8080/"
+const request = async (endpoint: string, init?: FetchRequestInit)=> {
     try
     {
         const res = await fetch(endpoint, init)
@@ -11,8 +10,8 @@ const request = async (endpoint: string, init?: FetchRequestInit) => {
             throw new Error(`Request ${endpoint} failed with status ${res.status}`, )
         }
         const contentType = res.headers?.get("content-type")
-        if(contentType?.includes("application.json"))
-            return res.json
+        if(contentType?.includes("application/json"))
+            return res.json()
         return res
     }
     catch (error)
@@ -23,7 +22,7 @@ const request = async (endpoint: string, init?: FetchRequestInit) => {
 }
 
 const ApiService = {
-    get: async (endpoint: string) => {
+    get: async (endpoint: string) : Promise<object>=> {
         return await request(BaseUrl+endpoint)
     },
 
@@ -45,7 +44,7 @@ const ApiService = {
 
     update: async(endpoint: string, id: number, payload: object) => {
         return await request(`${BaseUrl}${endpoint}/${id}`, {
-            method: "UPDATE",
+            method: "PUT",
             headers: {
                 'Content-type': 'application/json'
             },

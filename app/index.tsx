@@ -1,27 +1,45 @@
+import { Item } from '@/models/Item';
+import ItemService from '@/services/ItemService';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Button } from "@react-navigation/elements";
-import { useState } from "react";
-import { ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
-type Item = {
-  name: string,
-  quantity: number
-}
+import { useEffect, useState } from "react";
+import { ScrollView, Text, TextInput, View } from "react-native";
+import styles from './style';
 
 export default function Index() {
 
   const [ items, setItems ] = useState<Item[]>([])
-  const [ newItemName, setNewItemName ] = useState("")
+  const [ itemNameInput, setItemNameInput ] = useState("")
+
+  async function getAllItems () {
+    const items = await ItemService.getItems()
+    setItems(items)
+  }
+
+  useEffect(() => {
+    getAllItems()
+  }, [])
 
   const handleNewitem = async () => {
-
+    await ItemService.create({
+      name: itemNameInput,
+      quantity: 1
+    })
+    setItemNameInput("")
+    getAllItems()
   }  
 
-  const handleQuantityUpdate = async (id: number, quantity: number) => {
-    return []
+  const handleQuantityUpdate = async (item: Item, quantity: number) => {
+    await ItemService.update(item.id as number, {
+      name: item.name,
+      quantity: quantity
+    })
+    getAllItems()
   }
   
   const handleDelete = async (id: number) => {
-    
+    await ItemService.delete(id)
+    getAllItems()
   }
 
   return (
@@ -30,8 +48,8 @@ export default function Index() {
         <Text
         >Inserir novo item</Text>
         <TextInput
-          value={newItemName}
-          onChangeText={setNewItemName}
+          value={itemNameInput}
+          onChangeText={setItemNameInput}
           style={styles.textInput}></TextInput>
         <Button
           onPress={handleNewitem}
@@ -41,18 +59,20 @@ export default function Index() {
         {
           items.map((item : Item, i : number) => (
             <View 
-              style={styles.itemContainer} key={i}>
+              style={styles.itemContainer} key={item.id}>
               <Text>{item.name}</Text>
               <View style={styles.actionsContainer}>
                 <Text style={{fontSize: 24}}>{item.quantity}</Text>
                 <Ionicons name="add" size={32} color="green" onPress={ async () =>
-                  await handleQuantityUpdate(i, item.quantity++)
+                  await handleQuantityUpdate(item, item.quantity+1)
                 }
                     />
-                <Ionicons name="remove"size={32} color="green" onPress={async () => await handleQuantityUpdate(i, item.quantity-- )}/>
+                <Ionicons name="remove"size={32} color="green" onPress={async () => 
+                  await handleQuantityUpdate(item, item.quantity-1 )}
+                  />
                 <Ionicons name="trash"  style={{
                 marginLeft:24}} onPress={async() => {
-                    await handleDelete(i)
+                    await handleDelete(item.id as number)
                   }}
                   size={32} color="red" />
               </View>
@@ -63,40 +83,3 @@ export default function Index() {
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  textInput: {
-      height: 40,
-      borderColor: 'gray',
-      borderWidth: 1,
-  },
-  newItemCard: {
-    borderStyle: 'solid',
-    borderWidth: 1,
-    borderRadius: 5,
-    padding: 10,
-    flex: 1,
-    gap: 5,
-    marginTop: "20%",
-    marginHorizontal: 15,
-    marginBottom: 32
-  },
-  actionsContainer: {
-    flexDirection: 'row',
-    gap: 2,
-    alignItems: 'center'
-  },
-  itemContainer: {
-    flex:1, 
-    flexDirection:'row',
-    borderStyle: 'solid',
-    justifyContent: "space-around",
-    borderWidth: 1,
-    borderRadius: 5,
-    marginTop: 12,
-    marginHorizontal: 50,
-    paddingVertical: 5,
-    paddingHorizontal: 15,
-    width: 'auto'
-  }
-})
