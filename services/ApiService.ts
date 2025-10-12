@@ -1,5 +1,4 @@
 import { fetch, FetchRequestInit } from 'expo/fetch';
-import { Item } from '../models/Item';
 
 const BaseUrl = process.env.EXPO_BASE_URL || "localhost:8080"
 
@@ -34,7 +33,7 @@ const ApiService = {
         })
     },
 
-    create: async(endpoint: string, payload: Item) => {
+    create: async(endpoint: string, payload: object) => {
         return await request(`${BaseUrl}${endpoint}`, {
             method: "POST",
             headers: {
@@ -44,7 +43,7 @@ const ApiService = {
         })
     },
 
-    update: async(endpoint: string, id: number, payload: Item) => {
+    update: async(endpoint: string, id: number, payload: object) => {
         return await request(`${BaseUrl}${endpoint}/${id}`, {
             method: "UPDATE",
             headers: {
