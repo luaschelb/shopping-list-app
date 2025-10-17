@@ -2,6 +2,7 @@ import { Item } from '@/models/Item';
 import ItemService from '@/services/ItemService';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Button } from "@react-navigation/elements";
+import { Stack } from 'expo-router';
 import { useEffect, useState } from "react";
 import { ActivityIndicator, ScrollView, Text, TextInput, View } from "react-native";
 import styles from './style';
@@ -89,43 +90,46 @@ export default function Index() {
   }
 
   return (
-    <ScrollView>
-      <View style={styles.newItemCard}>
-        <Text>Inserir novo item</Text>
-        <TextInput
-          value={itemNameInput}
-          onChangeText={setItemNameInput}
-          style={styles.textInput}></TextInput>
-        <Button
-          onPress={handleNewitem}
-        >+</Button>
-        {isLoading && <ActivityIndicator size="large" color="#007AFF" />}
-      </View>
-      <View>
-        {
-          items.map((item : Item, i : number) => (
-            <View 
-              style={styles.itemContainer} key={item.id}>
-              <Text>{item.name}</Text>
-              <View style={styles.actionsContainer}>
-                <Text style={{fontSize: 24}}>{item.quantity}</Text>
-                <Ionicons name="add" size={32} color="green" onPress={ async () =>
-                  await handleQuantityUpdate(item, item.quantity+1)
-                }
+    <>
+      <Stack.Screen options={{ title: 'Lista de compras' }} />
+      <ScrollView>
+        <View style={styles.newItemCard}>
+          <Text>Inserir novo item</Text>
+          <TextInput
+            value={itemNameInput}
+            onChangeText={setItemNameInput}
+            style={styles.textInput}></TextInput>
+          <Button
+            onPress={handleNewitem}
+          >+</Button>
+          {isLoading && <ActivityIndicator size="large" color="#007AFF" />}
+        </View>
+        <View>
+          {
+            items.map((item : Item, i : number) => (
+              <View 
+                style={styles.itemContainer} key={item.id}>
+                <Text style={styles.itemName}>{item.name}</Text>
+                <View style={styles.actionsContainer}>
+                  <Text style={{fontSize: 24}}>{item.quantity}</Text>
+                  <Ionicons name="add" size={32} color="green" onPress={ async () =>
+                    await handleQuantityUpdate(item, item.quantity+1)
+                  }
+                      />
+                  <Ionicons name="remove"size={32} color="green" onPress={async () => 
+                    await handleQuantityUpdate(item, item.quantity-1 )}
                     />
-                <Ionicons name="remove"size={32} color="green" onPress={async () => 
-                  await handleQuantityUpdate(item, item.quantity-1 )}
-                  />
-                <Ionicons name="trash"  style={{
-                marginLeft:24}} onPress={async() => {
-                    await handleDelete(item.id as number)
-                  }}
-                  size={32} color="red" />
+                  <Ionicons name="trash"  style={{
+                  marginLeft:24}} onPress={async() => {
+                      await handleDelete(item.id as number)
+                    }}
+                    size={32} color="red" />
+                </View>
               </View>
-            </View>
-          ))
-        }
-      </View>
-    </ScrollView>
+            ))
+          }
+        </View>
+      </ScrollView>
+    </>
   );
 }
