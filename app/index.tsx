@@ -3,7 +3,7 @@ import ItemService from '@/services/ItemService';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Button } from "@react-navigation/elements";
 import { useEffect, useState } from "react";
-import { ScrollView, Text, TextInput, View } from "react-native";
+import { ActivityIndicator, ScrollView, Text, TextInput, View } from "react-native";
 import styles from './style';
 
 export default function Index() {
@@ -91,8 +91,7 @@ export default function Index() {
   return (
     <ScrollView>
       <View style={styles.newItemCard}>
-        <Text
-        >Inserir novo item</Text>
+        <Text>Inserir novo item</Text>
         <TextInput
           value={itemNameInput}
           onChangeText={setItemNameInput}
@@ -100,7 +99,7 @@ export default function Index() {
         <Button
           onPress={handleNewitem}
         >+</Button>
-        {isLoading && <Text>Loading...</Text>}
+        {isLoading && <ActivityIndicator size="large" color="#007AFF" />}
       </View>
       <View>
         {
