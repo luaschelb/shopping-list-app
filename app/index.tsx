@@ -10,10 +10,22 @@ export default function Index() {
 
   const [ items, setItems ] = useState<Item[]>([])
   const [ itemNameInput, setItemNameInput ] = useState("")
+  const [ isLoading, setIsLoading ] = useState(true)
 
   async function getAllItems () {
-    const items = await ItemService.getItems()
-    setItems(items)
+    setIsLoading(true)
+    try
+    {
+      const items = await ItemService.getItems()
+      setItems(items)
+    }
+    catch (err) {
+      console.error(err)
+    }
+    finally
+    {
+      setIsLoading(false)
+    }
   }
 
   useEffect(() => {
@@ -21,25 +33,59 @@ export default function Index() {
   }, [])
 
   const handleNewitem = async () => {
-    await ItemService.create({
-      name: itemNameInput,
-      quantity: 1
-    })
-    setItemNameInput("")
-    getAllItems()
+    if (isLoading) return;
+    setIsLoading(true)
+    try
+    {
+      await ItemService.create({
+        name: itemNameInput,
+        quantity: 1
+      })
+    }
+    catch (err) {
+      console.error(err)
+    }
+    finally
+    {
+      setItemNameInput("")
+      getAllItems()
+    }
   }  
 
   const handleQuantityUpdate = async (item: Item, quantity: number) => {
-    await ItemService.update(item.id as number, {
-      name: item.name,
-      quantity: quantity
-    })
-    getAllItems()
+    if (isLoading) return;
+    setIsLoading(true)
+    try
+    {
+      await ItemService.update(item.id as number, {
+        name: item.name,
+        quantity: quantity
+      })
+    }
+    catch (err) {
+      console.error(err)
+    }
+    finally
+    {
+      setItemNameInput("")
+      getAllItems()
+    }
   }
   
   const handleDelete = async (id: number) => {
+    if (isLoading) return;
+    setIsLoading(true)
+    try
+    {
     await ItemService.delete(id)
-    getAllItems()
+    }
+    catch (err) {
+      console.error(err)
+    }
+    finally
+    {
+      getAllItems()
+    }
   }
 
   return (
@@ -54,6 +100,7 @@ export default function Index() {
         <Button
           onPress={handleNewitem}
         >+</Button>
+        {isLoading && <Text>Loading...</Text>}
       </View>
       <View>
         {
