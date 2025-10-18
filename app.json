@@ -12,7 +12,8 @@
     },
     "android": {
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.luaschelb.shoppinglistapp"
     },
     "web": {
       "output": "static"
@@ -23,6 +24,12 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "19febd6f-7c03-4b38-a9da-efe2e922cce4"
+      }
     }
   }
 }
