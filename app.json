@@ -1,8 +1,9 @@
 {
   "expo": {
-    "name": "shopping-list-app",
+    "name": "Lista de Compras",
     "slug": "shopping-list-app",
     "version": "1.0.0",
+    "icon": "./assets/images/icon-light.png",
     "orientation": "portrait",
     "scheme": "shoppinglistapp",
     "userInterfaceStyle": "automatic",
