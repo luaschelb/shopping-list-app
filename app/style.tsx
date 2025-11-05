@@ -1,6 +1,9 @@
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
+  container: {
+    marginBottom: 40
+  },
   textInput: {
     height: 40,
     borderColor: '#d1d5db',
@@ -22,7 +25,7 @@ const styles = StyleSheet.create({
     padding: 16,
     flex: 1,
     gap: 12,
-    marginTop: "20%",
+    marginTop: "10%",
     marginHorizontal: 15,
     marginBottom: 32,
     backgroundColor: '#ffffff',
@@ -42,7 +45,7 @@ const styles = StyleSheet.create({
     marginTop: 12,
     marginHorizontal: 50,
     paddingVertical: 12,
-    paddingHorizontal: 15,
+    paddingHorizontal: 6,
     width: 'auto',
     backgroundColor: '#ffffff',
     shadowColor: '#000',
@@ -57,8 +60,8 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   itemName: {
-    maxWidth: 80,
-    minWidth: 80
+    maxWidth: 120,
+    minWidth: 120
   }
 })
 
