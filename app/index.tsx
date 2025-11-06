@@ -92,7 +92,7 @@ export default function Index() {
   return (
     <>
       <Stack.Screen options={{ title: 'Lista de compras' }} />
-      <ScrollView style={styles.container}>
+      <ScrollView style={styles.container} showsVerticalScrollIndicator={true}>
         <View style={styles.newItemCard}>
           <Text>Inserir novo item</Text>
           <TextInput
