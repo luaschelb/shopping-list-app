@@ -116,17 +116,24 @@ export default function Index() {
                 <View style={styles.actionsContainer}>
                   <Text style={{fontSize: 24}}>{item.quantity}</Text>
                   <Ionicons name="add" size={24} color="green" onPress={ async () =>
-                    await handleQuantityUpdate(item, item.quantity+1)
-                  }
-                      />
+                      await handleQuantityUpdate(item, item.quantity+1)
+                    }
+                  />
                   <Ionicons name="remove" size={24} color="green" onPress={async () => 
-                    await handleQuantityUpdate(item, item.quantity-1 )}
-                    />
-                  <Ionicons name="trash"  style={{
-                  marginLeft:24}} onPress={async() => {
+                      await handleQuantityUpdate(item, item.quantity-1 )
+                    }
+                  />
+                  <Ionicons 
+                    name="trash"  
+                    style={{
+                      marginLeft:24
+                    }} 
+                    onPress={async() => {
                       await handleDelete(item.id as number)
                     }}
-                    size={24} color="red" />
+                    size={24} 
+                    color="red" 
+                  />
                 </View>
               </View>
             ))
