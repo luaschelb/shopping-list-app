@@ -5,6 +5,7 @@ import { Button } from "@react-navigation/elements";
 import { Stack } from 'expo-router';
 import { useEffect, useState } from "react";
 import { ActivityIndicator, ScrollView, Text, TextInput, View } from "react-native";
+import { SafeAreaView } from 'react-native-safe-area-context';
 import styles from './style';
 
 export default function Index() {
@@ -90,9 +91,9 @@ export default function Index() {
   }
 
   return (
-    <>
+    <SafeAreaView>
       <Stack.Screen options={{ title: 'Lista de compras' }} />
-      <ScrollView style={styles.container} showsVerticalScrollIndicator={true}>
+      <ScrollView persistentScrollbar={true}>
         <View style={styles.newItemCard}>
           <Text>Inserir novo item</Text>
           <TextInput
@@ -108,7 +109,9 @@ export default function Index() {
           {
             items.map((item : Item, i : number) => (
               <View 
-                style={styles.itemContainer} key={item.id}>
+                style={[styles.itemContainer, 
+                  items.length -1 === i ? styles.lastItemContainer : null
+                ]} key={item.id}>
                 <Text style={styles.itemName}>{item.name}</Text>
                 <View style={styles.actionsContainer}>
                   <Text style={{fontSize: 24}}>{item.quantity}</Text>
@@ -130,6 +133,6 @@ export default function Index() {
           }
         </View>
       </ScrollView>
-    </>
+    </SafeAreaView>
   );
 }

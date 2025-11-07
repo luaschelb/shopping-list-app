@@ -1,9 +1,6 @@
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
-  container: {
-    marginBottom: 40
-  },
   textInput: {
     height: 40,
     borderColor: '#d1d5db',
@@ -53,6 +50,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.08,
     shadowRadius: 2,
     elevation: 2,
+  },
+  lastItemContainer: {
+    marginBottom: 8
   },
   actionsContainer: {
     flexDirection: 'row',
