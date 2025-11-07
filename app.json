@@ -20,6 +20,17 @@
       "output": "static"
     },
     "plugins": [
+      [
+        "expo-navigation-bar",
+        {
+          "backgroundColor": "#FFFFFF",
+          "barStyle": "dark",
+          "borderColor": "#FFFFFF",
+          "visibility": "visible",
+          "behavior": "inset-swipe",
+          "position": "relative"
+        }
+      ],
       "expo-router",
       "expo-web-browser",
       [
