@@ -27,7 +27,7 @@ const ApiService = {
     },
 
     delete: async(endpoint: string, id: number) => {
-        return await request(`${BaseUrl}${endpoint}/${id}`, {
+        return await request(`${BaseUrl}${endpoint}?id=${id}`, {
             method: "DELETE",
         })
     },
@@ -43,7 +43,7 @@ const ApiService = {
     },
 
     update: async(endpoint: string, id: number, payload: object) => {
-        return await request(`${BaseUrl}${endpoint}/${id}`, {
+        return await request(`${BaseUrl}${endpoint}?id=${id}`, {
             method: "PUT",
             headers: {
                 'Content-type': 'application/json'
