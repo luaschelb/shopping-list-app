@@ -1,9 +1,11 @@
 import { Item } from "@/models/Item"
+import { retryWithExponentialBackoff } from "@/utils/retryWithExponentialBackoff"
 import ApiService from "./ApiService"
 
 const ItemService = {
     getItems: async () => {
-        return await ApiService.get("items") as Item[]
+        const fn = async () => await ApiService.get("items") as Item[]
+        return await retryWithExponentialBackoff<Item[]>(fn)
     },
 
     create: async (newItem: Item) => {
