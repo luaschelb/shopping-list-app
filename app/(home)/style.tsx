@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   textInput: {
@@ -8,10 +8,9 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     paddingHorizontal: 12,
     backgroundColor: '#ffffff',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 2,
+    ...Platform.select({
+      web: { boxShadow: '0px 1px 2px rgba(0,0,0,0.05)' },
+    }),
     elevation: 1,
   },
   newItemCard: {
@@ -26,10 +25,9 @@ const styles = StyleSheet.create({
     marginHorizontal: 15,
     marginBottom: 32,
     backgroundColor: '#ffffff',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
+    ...Platform.select({
+      web: { boxShadow: '0px 2px 3px rgba(0,0,0,0.10)' },
+    }),
     elevation: 3,
   },
   itemContainer: {
@@ -45,10 +43,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 6,
     width: 'auto',
     backgroundColor: '#ffffff',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.08,
-    shadowRadius: 2,
+    ...Platform.select({
+      web: { boxShadow: '0px 1px 2px rgba(0,0,0,0.08)' },
+    }),
     elevation: 2,
   },
   lastItemContainer: {
@@ -62,6 +59,12 @@ const styles = StyleSheet.create({
   itemName: {
     maxWidth: 120,
     minWidth: 120
+  },
+  addButtonText: {
+    fontSize: 24,
+    textAlign: 'center',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
   }
 })
 
